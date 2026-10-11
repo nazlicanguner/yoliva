@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="src/Yoliva.Api/Yoliva.Api.csproj" />
+  <Project Path="src/Yoliva.Application/Yoliva.Application.csproj" />
+  <Project Path="src/Yoliva.Domain/Yoliva.Domain.csproj" />
+  <Project Path="src/Yoliva.Infrastructure/Yoliva.Infrastructure.csproj" />
 </Solution>
