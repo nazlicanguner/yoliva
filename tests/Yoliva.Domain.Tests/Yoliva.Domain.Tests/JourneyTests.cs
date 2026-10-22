@@ -28,7 +28,12 @@ public class JourneyTests
             52.5370,
             13.6070);
 
-        var departureAt = DateTimeOffset.UtcNow.AddDays(1);
+        var now = new DateTimeOffset(
+    2026, 10, 22,
+    12, 0, 0,
+    TimeSpan.Zero);
+
+        var departureAt = now.AddDays(1);
 
         // Act
         var action = () => Journey.Create(
@@ -37,7 +42,8 @@ public class JourneyTests
             meetingPoint,
             destination,
             departureAt,
-            passengerSeatCapacity);
+            passengerSeatCapacity,
+            now);
 
         // Assert
         Assert.Throws<ArgumentOutOfRangeException>(action);
@@ -60,7 +66,12 @@ public class JourneyTests
             52.5370,
             13.6070);
 
-        var departureAt = DateTimeOffset.UtcNow.AddDays(1);
+        var now = new DateTimeOffset(
+    2026, 10, 22,
+    12, 0, 0,
+    TimeSpan.Zero);
+
+        var departureAt = now.AddDays(1);
         const int passengerSeatCapacity = 3;
 
         // Act
@@ -70,7 +81,8 @@ public class JourneyTests
             meetingPoint,
             destination,
             departureAt,
-            passengerSeatCapacity);
+            passengerSeatCapacity,
+            now);
 
         // Assert
         Assert.Throws<ArgumentException>(action);
@@ -93,7 +105,12 @@ public class JourneyTests
             52.5370,
             13.6070);
 
-        var departureAt = DateTimeOffset.UtcNow.AddDays(1);
+        var now = new DateTimeOffset(
+    2026, 10, 22,
+    12, 0, 0,
+    TimeSpan.Zero);
+
+        var departureAt = now.AddDays(1);
         const int passengerSeatCapacity = 3;
 
         // Act
@@ -103,7 +120,8 @@ public class JourneyTests
             meetingPoint,
             destination,
             departureAt,
-            passengerSeatCapacity);
+            passengerSeatCapacity,
+            now);
 
         // Assert
         Assert.Throws<ArgumentException>(action);
@@ -123,7 +141,12 @@ public class JourneyTests
             52.5370,
             13.6070);
 
-        var departureAt = DateTimeOffset.UtcNow.AddDays(1);
+        var now = new DateTimeOffset(
+    2026, 10, 22,
+    12, 0, 0,
+    TimeSpan.Zero);
+
+        var departureAt = now.AddDays(1);
         const int passengerSeatCapacity = 3;
 
         // Act
@@ -133,7 +156,8 @@ public class JourneyTests
             meetingPoint!,
             destination,
             departureAt,
-            passengerSeatCapacity);
+            passengerSeatCapacity,
+            now);
 
         // Assert
         Assert.Throws<ArgumentNullException>(action);
@@ -153,7 +177,12 @@ public class JourneyTests
 
         JourneyLocation? destination = null;
 
-        var departureAt = DateTimeOffset.UtcNow.AddDays(1);
+        var now = new DateTimeOffset(
+    2026, 10, 22,
+    12, 0, 0,
+    TimeSpan.Zero);
+
+        var departureAt = now.AddDays(1);
         const int passengerSeatCapacity = 3;
 
         // Act
@@ -163,7 +192,8 @@ public class JourneyTests
             meetingPoint,
             destination!,
             departureAt,
-            passengerSeatCapacity);
+            passengerSeatCapacity,
+            now);
 
         // Assert
         Assert.Throws<ArgumentNullException>(action);
@@ -186,7 +216,12 @@ public class JourneyTests
             52.5370,
             13.6070);
 
-        var departureAt = DateTimeOffset.UtcNow.AddDays(1);
+        var now = new DateTimeOffset(
+    2026, 10, 22,
+    12, 0, 0,
+    TimeSpan.Zero);
+
+        var departureAt = now.AddDays(1);
         const int passengerSeatCapacity = 3;
 
         // Act
@@ -196,7 +231,8 @@ public class JourneyTests
             meetingPoint,
             destination,
             departureAt,
-            passengerSeatCapacity);
+            passengerSeatCapacity,
+            now);
 
         // Assert
         Assert.NotEqual(Guid.Empty, journey.Id);
@@ -206,5 +242,45 @@ public class JourneyTests
         Assert.Equal(destination, journey.Destination);
         Assert.Equal(departureAt, journey.DepartureAt);
         Assert.Equal(passengerSeatCapacity, journey.PassengerSeatCapacity);
+    }
+
+    [Fact]
+    public void Create_ShouldThrowArgumentOutOfRangeException_WhenDepartureAtIsNotInFuture()
+    {
+        // Arrange
+        var driverId = Guid.NewGuid();
+        var vehicleId = Guid.NewGuid();
+
+        var meetingPoint = JourneyLocation.Create(
+            "Alexanderplatz",
+            52.5200,
+            13.4050);
+
+        var destination = JourneyLocation.Create(
+            "Gisma University",
+            52.5370,
+            13.6070);
+
+        var now = new DateTimeOffset(
+            2026, 10, 22,
+            12, 0, 0,
+            TimeSpan.Zero);
+
+        var departureAt = now;
+
+        const int passengerSeatCapacity = 3;
+
+        // Act
+        var action = () => Journey.Create(
+            driverId,
+            vehicleId,
+            meetingPoint,
+            destination,
+            departureAt,
+            passengerSeatCapacity,
+            now);
+
+        // Assert
+        Assert.Throws<ArgumentOutOfRangeException>(action);
     }
 }

@@ -38,7 +38,8 @@ public sealed class Journey
         JourneyLocation meetingPoint,
         JourneyLocation destination,
         DateTimeOffset departureAt,
-        int passengerSeatCapacity)
+        int passengerSeatCapacity,
+        DateTimeOffset now)
     {
 
         if (driverId == Guid.Empty)
@@ -58,6 +59,13 @@ public sealed class Journey
         ArgumentNullException.ThrowIfNull(meetingPoint);
 
         ArgumentNullException.ThrowIfNull(destination);
+
+        if (departureAt <= now)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(departureAt),
+                "Departure time must be in the future.");
+        }
 
         if (passengerSeatCapacity < 1)
         {
